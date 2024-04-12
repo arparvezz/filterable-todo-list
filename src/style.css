@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*, body{
+  font-family: "Fira Mono", monospace;
+}
+body{
+  background: #27374D;
+}
