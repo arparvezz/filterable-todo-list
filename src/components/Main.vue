@@ -55,6 +55,10 @@ function addNewTask(){
   document.querySelector('#newTask').value = '';
 }
 
+// Update task title with popup (update button)
+function updateTaskTitle(currentIndex){
+  taskList[currentIndex].title = document.getElementById('updateTaskTitle').value;
+}
 
 </script>
 <template>
@@ -129,16 +133,16 @@ function addNewTask(){
     <!-- Pop Up Section -->
 
     <div v-if="showPopup" class="p-2 bg-slate-300 rounded border border-slate-300 space-y-1 fixed top-15">
-      <input class="px-2 py-2 rounded focus:outline-none" type="text" v-model="taskList[currentTaskIndex].title"><br>
+      <input class="px-2 py-2 rounded focus:outline-none" type="text" :value="taskList[currentTaskIndex].title" id="updateTaskTitle"><br>
       <div class="space-x-1">
-        <button @click="showPopup = !showPopup" class="px-3 py-2 rounded bg-green-300 text-green-800">Update</button>
+        <button @click="showPopup = !showPopup;updateTaskTitle(currentTaskIndex)" class="px-3 py-2 rounded bg-green-300 text-green-800">Update</button>
         <button @click="showPopup = !showPopup" class="px-3 py-2 rounded bg-red-300 text-red-800">Cancel</button>
       </div>
     </div>
-  
-  </div>
 
+  </div>
 
 </template>
 <style>
+
 </style>
