@@ -2,7 +2,7 @@
 import { ref, reactive } from 'vue';
 let showPopup = ref(false);
 let currentTaskIndex = reactive(1)
-let currentTaskListsCondition = reactive('all');
+let currentTaskListsCondition = ref('all');
 
 const taskList = reactive([
   {
@@ -19,21 +19,26 @@ const taskList = reactive([
   }
 ])
 
+// filter taskList Array according to filter
 function filterTaskList(){
-  if(currentTaskListsCondition == 'all'){
+  if(currentTaskListsCondition.value == 'all'){
     return taskList;
-  }else if(currentTaskListsCondition == 'done'){
-    taskList.filter(singleTask => {
-      if(singleTask.condition == true){
-        return singleTask
+  }else if(currentTaskListsCondition.value == 'done'){
+    let newTaskList = [];
+    taskList.filter((singleTask) => {
+      if(singleTask.condition){
+        newTaskList.push(singleTask)
       }
     })
+    return newTaskList;
   }else{
-    taskList.filter(singleTask => {
-      if(singleTask.condition == false){
-        return singleTask
+    let newTaskList = [];
+    taskList.filter((singleTask) => {
+      if(!singleTask.condition){
+        newTaskList.push(singleTask)
       }
     })
+    return newTaskList;
   }
 }
 
@@ -56,7 +61,6 @@ function addNewTask(){
   <div class="container mx-auto grid place-items-center">
     <div class="p-4 rounded border border-slate-500 mt-20">
       <!-- Task Input Box -->
-      {{ currentTaskListsCondition }}
       <div class="space-x-1 my-2">
         <input class="px-2 py-2 rounded focus:outline-none" type="text" name="newTask" id="newTask"
           placeholder="Drink Water...">
@@ -105,16 +109,16 @@ function addNewTask(){
         <h3>Filter Tasks</h3>
         <div class="flex items-center space-x-2">
           <div class="flex items-center space-x-1">
-            <input @click="currentTaskListsCondition = 'all'" type="radio" name="filter-type" id="all" checked>
+            <input type="radio" name="filter-type" id="all" value="all" v-model="currentTaskListsCondition">
             <label for="all">All</label>
           </div>
           <div class="flex items-center space-x-1">
-            <input @click="currentTaskListsCondition = 'done'" type="radio" name="filter-type" id="done">
+            <input type="radio" name="filter-type" id="done" value="done"  v-model="currentTaskListsCondition">
             <label for="done">Done</label>
           </div>
           
           <div class="flex items-center space-x-1">
-            <input @click="currentTaskListsCondition = 'due'" type="radio" name="filter-type" id="due">
+            <input type="radio" name="filter-type" id="due" value="due" v-model="currentTaskListsCondition">
             <label for="due">Due</label>
           </div>
         </div>
@@ -123,8 +127,6 @@ function addNewTask(){
     </div>
 
     <!-- Pop Up Section -->
-    
-    
 
     <div v-if="showPopup" class="p-2 bg-slate-300 rounded border border-slate-300 space-y-1 fixed top-15">
       <input class="px-2 py-2 rounded focus:outline-none" type="text" v-model="taskList[currentTaskIndex].title"><br>
@@ -134,16 +136,9 @@ function addNewTask(){
       </div>
     </div>
   
-
   </div>
-
-
 
 
 </template>
 <style>
-
-
-
-
 </style>
