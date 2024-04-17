@@ -73,7 +73,11 @@ function updateTaskTitle(currentIndex){
 
       <!-- Task List Section -->
       <div class="space-y-2 my-2">
-        <div v-for="(task, index) in filterTaskList()" :key="index"
+        <div v-if="filterTaskList().length <= 0" class="bg-red-300 p-2 rounded">
+            <h2>No Task Found!</h2>
+        </div>
+        <div v-else class="space-y-1">
+          <div v-for="(task, index) in filterTaskList()" :key="index"
           class="p-2 rounded bg-white flex justify-between items-center">
           <!-- Single message section -->
           <div class="flex items-center space-x-1">
@@ -106,6 +110,8 @@ function updateTaskTitle(currentIndex){
               </svg></button>
           </div>
         </div>
+        </div>
+        
       </div>
 
       <!-- Task Filter Section -->
@@ -131,6 +137,8 @@ function updateTaskTitle(currentIndex){
     </div>
 
     <!-- Pop Up Section -->
+    
+    
 
     <div v-if="showPopup" class="p-2 bg-slate-300 rounded border border-slate-300 space-y-1 fixed top-15">
       <input class="px-2 py-2 rounded focus:outline-none" type="text" :value="taskList[currentTaskIndex].title" id="updateTaskTitle"><br>
@@ -139,10 +147,17 @@ function updateTaskTitle(currentIndex){
         <button @click="showPopup = !showPopup" class="px-3 py-2 rounded bg-red-300 text-red-800">Cancel</button>
       </div>
     </div>
+  
 
   </div>
 
+
+
+
 </template>
 <style>
+
+
+
 
 </style>
